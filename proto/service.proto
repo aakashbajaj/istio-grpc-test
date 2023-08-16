@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-package sample;
+package servicepb;
+
+option go_package = "./internal;servicepb";
 
 service SampleService {
   rpc UnaryCall(RequestMessage) returns (ResponseMessage);

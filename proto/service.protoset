@@ -1,0 +1,10 @@
+
+Á
+service.proto	servicepb"*
+RequestMessage
+message (	Rmessage"+
+ResponseMessage
+message (	Rmessage2«
+SampleServiceB
+	UnaryCall.servicepb.RequestMessage.servicepb.ResponseMessageV
+ServerToClientStreamingCall.servicepb.RequestMessage.servicepb.ResponseMessage0BZ./internal;servicepbbproto3
