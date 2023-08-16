@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"log"
 	"net"
-	pb "your-module-name/proto"
+
+	pb "github.com/aakashbajaj/istio-grpc-test/internal"
 
 	"google.golang.org/grpc"
 )
 
-type server struct{}
+type server struct {
+	pb.UnimplementedSampleServiceServer
+}
 
 func (s *server) UnaryCall(ctx context.Context, req *pb.RequestMessage) (*pb.ResponseMessage, error) {
 	message := fmt.Sprintf("Received: %s", req.Message)

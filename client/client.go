@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	pb "your-module-name/proto"
+	pb "github.com/aakashbajaj/istio-grpc-test/internal"
 
 	"google.golang.org/grpc"
 )
