@@ -3,6 +3,9 @@ FROM golang:latest
 WORKDIR /app
 COPY . .
 
-RUN go build -o server ./server.go
+
+WORKDIR /Users/techno/work/istio-grpc
+RUN go mod download
+RUN go build -o bin/server ./main.go
 
 CMD ["./server"]

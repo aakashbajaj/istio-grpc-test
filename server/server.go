@@ -1,10 +1,11 @@
-package main
+package server
 
 import (
 	"context"
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	pb "github.com/aakashbajaj/istio-grpc-test/internal"
 
@@ -12,6 +13,7 @@ import (
 )
 
 type server struct {
+	ch chan struct{}
 	pb.UnimplementedSampleServiceServer
 }
 
@@ -21,23 +23,32 @@ func (s *server) UnaryCall(ctx context.Context, req *pb.RequestMessage) (*pb.Res
 }
 
 func (s *server) ServerToClientStreamingCall(req *pb.RequestMessage, stream pb.SampleService_ServerToClientStreamingCallServer) error {
-	for i := 0; i < 5; i++ {
-		message := fmt.Sprintf("Response %d: %s", i+1, req.Message)
-		err := stream.Send(&pb.ResponseMessage{Message: message})
-		if err != nil {
-			return err
+	i := 0
+	for {
+		select {
+		case <-s.ch:
+			fmt.Printf("terminating application...")
+			return nil
+		default:
+			message := fmt.Sprintf("Response %d: %s", i+1, req.Message)
+			err := stream.Send(&pb.ResponseMessage{Message: message})
+			if err != nil {
+				return err
+			}
+			time.Sleep(500 * time.Millisecond)
 		}
 	}
-	return nil
 }
 
-func main() {
+func Start() {
 	listener, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 	srv := grpc.NewServer()
-	pb.RegisterSampleServiceServer(srv, &server{})
+	pb.RegisterSampleServiceServer(srv, &server{
+		ch: make(chan struct{}),
+	})
 	log.Println("Server started on :50051")
 	if err := srv.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
