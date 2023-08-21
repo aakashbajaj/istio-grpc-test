@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	pb "github.com/aakashbajaj/istio-grpc-test/internal"
 
@@ -11,7 +12,10 @@ import (
 )
 
 func main() {
+	connStart := time.Now()
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	connTime := time.Since(connStart)
+	log.Printf("Connection Response Time: %v", connTime)
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
@@ -20,7 +24,10 @@ func main() {
 	client := pb.NewSampleServiceClient(conn)
 
 	// Unary Call
+	start1 := time.Now()
 	unaryResponse, err := client.UnaryCall(context.Background(), &pb.RequestMessage{Message: "Hello Unary"})
+	respTime1 := time.Since(start1)
+	log.Printf("Unary Response Time: %v", respTime1)
 	if err != nil {
 		log.Fatalf("UnaryCall error: %v", err)
 	}
