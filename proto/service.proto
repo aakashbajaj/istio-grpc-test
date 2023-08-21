@@ -4,6 +4,8 @@ package servicepb;
 
 option go_package = "./internal;servicepb";
 
+import "google/protobuf/timestamp.proto";
+
 service SampleService {
   rpc UnaryCall(RequestMessage) returns (ResponseMessage);
   rpc ServerToClientStreamingCall(RequestMessage) returns (stream ResponseMessage);
@@ -11,8 +13,10 @@ service SampleService {
 
 message RequestMessage {
   string message = 1;
+  google.protobuf.Timestamp RequestedAt = 2;
 }
 
 message ResponseMessage {
   string message = 1;
+  google.protobuf.Timestamp RespondedAt = 2;
 }

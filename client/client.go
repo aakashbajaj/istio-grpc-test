@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"time"
 
@@ -25,7 +26,7 @@ func main() {
 
 	// Unary Call
 	start1 := time.Now()
-	unaryResponse, err := client.UnaryCall(context.Background(), &pb.RequestMessage{Message: "Hello Unary"})
+	unaryResponse, err := client.UnaryCall(context.Background(), &pb.RequestMessage{Message: "Hello Unary", RequestedAt: timestamppb.Now()})
 	respTime1 := time.Since(start1)
 	log.Printf("Unary Response Time: %v", respTime1)
 	if err != nil {
@@ -34,17 +35,18 @@ func main() {
 	fmt.Println("Unary Response:", unaryResponse.Message)
 
 	// Server-to-Client Streaming Call
-	stream, err := client.ServerToClientStreamingCall(context.Background(), &pb.RequestMessage{Message: "Hello Stream"})
+	stream, err := client.ServerToClientStreamingCall(context.Background(), &pb.RequestMessage{Message: "Hello Stream", RequestedAt: timestamppb.Now()})
 	if err != nil {
 		log.Fatalf("ServerToClientStreamingCall error: %v", err)
 	}
 
 	for {
 		response, err := stream.Recv()
+		delay := time.Since(response.RespondedAt.AsTime())
 		if err != nil {
 			break
 		}
-		fmt.Println("Stream Response:", response.Message)
+		fmt.Printf("Stream Response: %s, delay: %v", response.Message, delay)
 	}
 
 	log.Println("Client completed")

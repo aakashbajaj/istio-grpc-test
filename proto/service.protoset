@@ -1,10 +1,18 @@
 
-Á
-service.proto	servicepb"*
+ÿ
+google/protobuf/timestamp.protogoogle.protobuf";
+	Timestamp
+seconds (Rseconds
+nanos (RnanosB…
+com.google.protobufBTimestampProtoPZ2google.golang.org/protobuf/types/known/timestamppbø¢GPBªGoogle.Protobuf.WellKnownTypesbproto3
+Þ
+service.proto	servicepbgoogle/protobuf/timestamp.proto"h
 RequestMessage
-message (	Rmessage"+
+message (	Rmessage<
+RequestedAt (2.google.protobuf.TimestampRRequestedAt"i
 ResponseMessage
-message (	Rmessage2«
+message (	Rmessage<
+RespondedAt (2.google.protobuf.TimestampRRespondedAt2«
 SampleServiceB
 	UnaryCall.servicepb.RequestMessage.servicepb.ResponseMessageV
 ServerToClientStreamingCall.servicepb.RequestMessage.servicepb.ResponseMessage0BZ./internal;servicepbbproto3
