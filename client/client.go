@@ -47,7 +47,7 @@ func main() {
 			log.Printf("error: %v", err)
 			break
 		}
-		fmt.Printf("Stream Response: %s, delay: %v", response.Message, delay)
+		fmt.Printf("\nStream Response: %s, delay: %v", response.Message, delay)
 	}
 
 	log.Println("Client completed")

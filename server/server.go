@@ -36,6 +36,7 @@ func (s *server) ServerToClientStreamingCall(req *pb.RequestMessage, stream pb.S
 			if err != nil {
 				return err
 			}
+			i++
 			time.Sleep(500 * time.Millisecond)
 		}
 	}
