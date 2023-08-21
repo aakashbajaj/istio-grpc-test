@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"net"
 	"time"
@@ -31,7 +32,7 @@ func (s *server) ServerToClientStreamingCall(req *pb.RequestMessage, stream pb.S
 			return nil
 		default:
 			message := fmt.Sprintf("Response %d: %s", i+1, req.Message)
-			err := stream.Send(&pb.ResponseMessage{Message: message})
+			err := stream.Send(&pb.ResponseMessage{Message: message, RespondedAt: timestamppb.Now()})
 			if err != nil {
 				return err
 			}

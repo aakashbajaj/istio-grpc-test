@@ -44,6 +44,7 @@ func main() {
 		response, err := stream.Recv()
 		delay := time.Since(response.RespondedAt.AsTime())
 		if err != nil {
+			log.Printf("error: %v", err)
 			break
 		}
 		fmt.Printf("Stream Response: %s, delay: %v", response.Message, delay)
