@@ -34,6 +34,7 @@ func main() {
 			log.Fatalf("UnaryCall error: %v", err)
 		}
 		fmt.Println("Unary Response:", unaryResponse.Message)
+		time.Sleep(1 * time.Millisecond)
 	}
 
 	// Server-to-Client Streaming Call
