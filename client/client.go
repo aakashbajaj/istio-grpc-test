@@ -24,15 +24,17 @@ func main() {
 
 	client := pb.NewSampleServiceClient(conn)
 
-	// Unary Call
-	start1 := time.Now()
-	unaryResponse, err := client.UnaryCall(context.Background(), &pb.RequestMessage{Message: "Hello Unary", RequestedAt: timestamppb.Now()})
-	respTime1 := time.Since(start1)
-	log.Printf("Unary Response Time: %v", respTime1)
-	if err != nil {
-		log.Fatalf("UnaryCall error: %v", err)
+	for i := 0; i < 10; i++ {
+		// Unary Call
+		start1 := time.Now()
+		unaryResponse, err := client.UnaryCall(context.Background(), &pb.RequestMessage{Message: fmt.Sprintf("Hello Unary :%d", i), RequestedAt: timestamppb.Now()})
+		respTime1 := time.Since(start1)
+		log.Printf("Unary Response Time: %v", respTime1)
+		if err != nil {
+			log.Fatalf("UnaryCall error: %v", err)
+		}
+		fmt.Println("Unary Response:", unaryResponse.Message)
 	}
-	fmt.Println("Unary Response:", unaryResponse.Message)
 
 	// Server-to-Client Streaming Call
 	stream, err := client.ServerToClientStreamingCall(context.Background(), &pb.RequestMessage{Message: "Hello Stream", RequestedAt: timestamppb.Now()})
